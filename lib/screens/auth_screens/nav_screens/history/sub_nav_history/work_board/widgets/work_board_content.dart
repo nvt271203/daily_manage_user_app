@@ -11,6 +11,7 @@ class WorkBoardContent extends StatefulWidget {
 }
 
 class _WorkBoardContentState extends State<WorkBoardContent> {
+  final DateTime _selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -68,7 +69,11 @@ class _WorkBoardContentState extends State<WorkBoardContent> {
           ),
 
           const SizedBox(height: 12),
-          TodoListTableWidget(),
+          TodoListTableWidget(selectedDate: _selectedDate,
+            showFilterDropdown: false,
+          ),
+          const SizedBox(height: 30),
+
         ],
       ),
     );

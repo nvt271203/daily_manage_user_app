@@ -17,8 +17,9 @@ class DetailLeaveRequest extends StatelessWidget {
   Color getStatusColor(String status) {
     switch (status) {
       case 'Approved':
-        return Colors.green;
-      case 'Rejected':
+        return Color(0xFF00B2BF);
+
+    case 'Rejected':
         return Colors.red;
       default:
         return Colors.orange;
@@ -28,7 +29,7 @@ class DetailLeaveRequest extends StatelessWidget {
   Color getStatusBackgroundColor(String status) {
     switch (status) {
       case 'Approved':
-        return Color(0xFFC9E4D6);
+        return Color(0xFFCAE5E8);
 
       case 'Rejected':
         return Color(0xFFFFC0CB);

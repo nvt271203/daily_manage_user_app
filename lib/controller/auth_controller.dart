@@ -33,7 +33,7 @@ import 'package:daily_manage_user_app/screens/admin_main_screen.dart';
           role: '',
           fullName: '',
           birthDay: null,
-          sex: '',
+          sex: null,
           email: email,
           password: password,
           image: '',
@@ -158,7 +158,181 @@ import 'package:daily_manage_user_app/screens/admin_main_screen.dart';
       // showSnackBar(context, 'Logout success');
     }
 
+    Future<bool> updateInformationFullName({
+      required WidgetRef ref,
+      required String id,
+      required String fullName
+      }
+        )async{
+      try{
+        http.Response response = await http.put(Uri.parse('$uri/api/user/$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({'fullName': fullName})
+        );
+        print('✅ PUT response: ${response.statusCode} - ${response.body}');
+
+
+        if(response.statusCode == 200 || response.statusCode == 201){
+          final userJson =response.body;
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.setString('user', userJson);
+          ref.read(userProvider.notifier).setUser(userJson);
+          return true;
+        }else{
+          return false;
+        }
+      }catch(e){
+        return false;
+      }
+    }
+
+    Future<bool> updateInformationPhoneNumber({
+      required WidgetRef ref,
+      required String id,
+      required String phoneNumber
+    }
+        )async{
+      try{
+        http.Response response = await http.put(Uri.parse('$uri/api/user/$id'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode({'phoneNumber': phoneNumber})
+        );
+        print('✅ PUT response: ${response.statusCode} - ${response.body}');
+
+
+        if(response.statusCode == 200 || response.statusCode == 201){
+          final userJson =response.body;
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.setString('user', userJson);
+          ref.read(userProvider.notifier).setUser(userJson);
+          return true;
+        }else{
+          return false;
+        }
+      }catch(e){
+        return false;
+      }
+    }
+    Future<bool> updateInformationSex({
+      required WidgetRef ref,
+      required String id,
+      required String sex
+    }
+        )async{
+      try{
+        http.Response response = await http.put(Uri.parse('$uri/api/user/$id'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode({'sex': sex})
+        );
+        print('✅ PUT response: ${response.statusCode} - ${response.body}');
+
+
+        if(response.statusCode == 200 || response.statusCode == 201){
+          final userJson =response.body;
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.setString('user', userJson);
+          ref.read(userProvider.notifier).setUser(userJson);
+          return true;
+        }else{
+          return false;
+        }
+      }catch(e){
+        return false;
+      }
+    }
+    Future<bool> updateInformationBirthday({
+      required WidgetRef ref,
+      required String id,
+      required DateTime birthDay
+    }
+        )async{
+      try{
+        http.Response response = await http.put(Uri.parse('$uri/api/user/$id'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+            },
+            body: jsonEncode({'birthDay': birthDay.toIso8601String()})
+        );
+        print('✅ PUT response: ${response.statusCode} - ${response.body}');
+
+
+        if(response.statusCode == 200 || response.statusCode == 201){
+          final userJson =response.body;
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.setString('user', userJson);
+          ref.read(userProvider.notifier).setUser(userJson);
+          return true;
+        }else{
+          return false;
+        }
+      }catch(e){
+        return false;
+      }
+    }
+    Future<bool> updateInformationImage({
+      required WidgetRef ref,
+      required String id,
+      required File? image,
+    }) async {
+      late String imageStr;
+      try {
+        if (image != null) {
+          final cloudinary = CloudinaryPublic('doiar6ybd', 'daily_manage');
+          CloudinaryResponse imageResponse = await cloudinary.uploadFile(
+            CloudinaryFile.fromFile(image.path, folder: 'users'),
+          );
+          imageStr = imageResponse.secureUrl;
+        }
+
+        http.Response response = await http.put(
+          Uri.parse('$uri/api/user/$id'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({'image': imageStr}),
+        );
+
+        print('✅ PUT response: ${response.statusCode} - ${response.body}');
+
+
+
+        if (response.statusCode == 200) {
+          // Cập nhật userProvider với dữ liệu từ server
+          // final updatedUser = User.fromJson(response.body);
+          //
+          // providerContainer.read(userProvider.notifier).updateUser(updatedUser);
+
+          // Cập nhật SharedPreferences
+          // SharedPreferences preferences = await SharedPreferences.getInstance();
+          // await preferences.setString('user', response.body);
+
+
+
+          final userJson = jsonEncode(jsonDecode(response.body));
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.setString('user', userJson);
+          ref.read(userProvider.notifier).setUser(userJson);
+
+          // await preferences.setString('auth_token', token);
+
+          return true;
+        }
+
+        return response.statusCode == 200;
+      } catch (e) {
+        print('❌ Exception updateWorkByUser: $e');
+        return false;
+      }
+    }
+
     Future<bool> updateInformationUser({
+      required WidgetRef ref,
       required String id,
       required String? fullName,
       required DateTime? birthDay,
@@ -181,7 +355,7 @@ import 'package:daily_manage_user_app/screens/admin_main_screen.dart';
         if (image != null) {
           final cloudinary = CloudinaryPublic('doiar6ybd', 'daily_manage');
           CloudinaryResponse imageResponse = await cloudinary.uploadFile(
-            CloudinaryFile.fromFile(image.path, folder: image.path.toString()),
+            CloudinaryFile.fromFile(image.path, folder: 'users'),
           );
           imageStr = imageResponse.secureUrl;
           updateFields['image'] = imageStr;
@@ -192,7 +366,7 @@ import 'package:daily_manage_user_app/screens/admin_main_screen.dart';
         http.Response response = await http.put(
           Uri.parse('$uri/api/user/$id'),
           headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
+            'Content-Type': 'applicaon/json; charset=UTF-8',
           },
           body: jsonEncode(updateFields),
         );
@@ -203,12 +377,22 @@ import 'package:daily_manage_user_app/screens/admin_main_screen.dart';
 
         if (response.statusCode == 200) {
           // Cập nhật userProvider với dữ liệu từ server
-          final updatedUser = User.fromJson(response.body);
-          providerContainer.read(userProvider.notifier).updateUser(updatedUser);
+          // final updatedUser = User.fromJson(response.body);
+          //
+          // providerContainer.read(userProvider.notifier).updateUser(updatedUser);
 
           // Cập nhật SharedPreferences
+          // SharedPreferences preferences = await SharedPreferences.getInstance();
+          // await preferences.setString('user', response.body);
+
+
+
+          final userJson = jsonEncode(jsonDecode(response.body));
           SharedPreferences preferences = await SharedPreferences.getInstance();
-          await preferences.setString('user', response.body);
+          await preferences.setString('user', userJson);
+          ref.read(userProvider.notifier).setUser(userJson);
+
+          // await preferences.setString('auth_token', token);
 
           return true;
         }

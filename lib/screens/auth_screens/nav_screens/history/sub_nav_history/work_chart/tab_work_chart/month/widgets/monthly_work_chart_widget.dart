@@ -73,7 +73,7 @@ class MonthlyWorkChartWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          row(Icons.access_time, "Total working time in month", "$totalHours : ${remainMinutes.toInt()}"),
+          row(Icons.access_time, "Total working time in month", "${totalHours}h${remainMinutes.toInt()}"),
           if (mostDay != null)
             row(Icons.trending_up, "Most working day", "Day ${mostDay['day']} - ${_formatHourMinute(mostDay['minutes'])}", iconColor: Colors.green),
           if (leastDay != null)
@@ -88,7 +88,7 @@ class MonthlyWorkChartWidget extends StatelessWidget {
     final totalMinutes = minutes.round();
     final h = totalMinutes ~/ 60;
     final m = totalMinutes % 60;
-    return "${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}";
+    return "${h.toString().padLeft(2, '0')}h${m.toString().padLeft(2, '0')}";
   }
 
 // Hàm hiển thị các thứ.
@@ -143,14 +143,19 @@ class MonthlyWorkChartWidget extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: SizedBox(
                   width: data.length * 40 + 40,
+                  // width: chartWidth,
                   child: BarChart(
                     BarChartData(
                       alignment: BarChartAlignment.spaceAround,
                       maxY: maxY,
                       barTouchData: BarTouchData(
                         enabled: true,
+
                         touchTooltipData: BarTouchTooltipData(
-                          tooltipPadding: const EdgeInsets.all(8),
+                          tooltipPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           tooltipMargin: 8,
                           // 📝 ĐÃ THÊM: margin cho tooltip
                           tooltipBorder: BorderSide.none,
@@ -165,14 +170,21 @@ class MonthlyWorkChartWidget extends StatelessWidget {
                             final minutes  = totalMinutes % 60;
 
                             return BarTooltipItem(
-                              '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}', // 📝 ĐÃ SỬA: định dạng tooltip kiểu HH:mm
+                              '${hours.toString().padLeft(2, '0')}h${minutes.toString().padLeft(2, '0')}', // 📝 ĐÃ SỬA: định dạng tooltip kiểu HH:mm
                               const TextStyle(color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,),
 
                             );
                           },
+                          // tooltipPadding: const EdgeInsets.symmetric(
+                          //   horizontal: 8,
+                          //   vesrtical: 4,
+                          // ),
+
+
                         ),
+
                       ),
                       titlesData: FlTitlesData(
                         bottomTitles: AxisTitles(
@@ -223,13 +235,29 @@ class MonthlyWorkChartWidget extends StatelessWidget {
                             },
                           ),
                         ),
+                        // Thiết lập dữ liệu hiển thị trục y.
                         leftTitles: AxisTitles(
                           sideTitles: SideTitles(
                             showTitles: true,
                             interval: 1,
-                            getTitlesWidget: (val, _) => Text('${val.toInt()}h'),
+                            reservedSize: 30,
+                            getTitlesWidget: (value, _) => Text(
+                              "${value.toInt()}h",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.black.withOpacity(0.5),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
+                        // leftTitles: AxisTitles(
+                        //   sideTitles: SideTitles(
+                        //     showTitles: true,
+                        //     interval: 1,
+                        //     getTitlesWidget: (val, _) => Text('${val.toInt()}h'),
+                        //   ),
+                        // ),
                         rightTitles: AxisTitles(
                           sideTitles: SideTitles(showTitles: false),
                         ),
@@ -282,30 +310,79 @@ class MonthlyWorkChartWidget extends StatelessWidget {
   //   { 'day': 3, 'minutes': 375.0 },
   //   ...
 //   ]
+//   List<Map<String, dynamic>> _buildChartData() {
+//     // Lấy ra tổng số ngày trong 1 tháng: 30 or 31
+//     final daysInMonth = DateUtils.getDaysInMonth(year, month);
+//
+//     return List.generate(daysInMonth, (i) {
+//
+// // Tạo DateTime cho từng ngày (từ ngày 1 đến ngày N).
+//       final day = DateTime(year, month, i + 1);
+//       final totalSeconds = works
+//           .where((w) {
+//             final d = w.checkInTime.toLocal();
+//             return d.year == year && d.month == month && d.day == day.day;
+//           })
+//           .fold<int>(0, (sum, w) => sum + w.workTime.inSeconds);
+//
+//       return {'day': i + 1, 'minutes': (totalSeconds / 60).toDouble()};
+//     });
+//   }
   List<Map<String, dynamic>> _buildChartData() {
-    // Lấy ra tổng số ngày trong 1 tháng: 30 or 31
     final daysInMonth = DateUtils.getDaysInMonth(year, month);
 
+    // Khởi tạo bản đồ lưu phút làm việc mỗi ngày
+    Map<int, double> minutesPerDay = {
+      for (int i = 1; i <= daysInMonth; i++) i: 0.0,
+    };
+
+    for (final work in works) {
+      DateTime checkIn = work.checkInTime.toLocal();
+      DateTime checkOut = checkIn.add(work.workTime); // Hoặc dùng work.checkOutTime.toLocal() nếu có
+
+      DateTime currentDayStart = DateTime(checkIn.year, checkIn.month, checkIn.day);
+
+      while (currentDayStart.isBefore(checkOut)) {
+        final nextDayStart = currentDayStart.add(const Duration(days: 1));
+        final start = checkIn.isAfter(currentDayStart) ? checkIn : currentDayStart;
+        final end = checkOut.isBefore(nextDayStart) ? checkOut : nextDayStart;
+
+        final workedDuration = end.difference(start);
+
+        if (currentDayStart.year == year && currentDayStart.month == month) {
+          final day = currentDayStart.day;
+          minutesPerDay[day] = (minutesPerDay[day] ?? 0) + workedDuration.inMinutes.toDouble();
+        }
+
+        currentDayStart = nextDayStart;
+      }
+    }
+
+    // Trả về danh sách dạng [{ 'day': 1, 'minutes': 120.0 }, ...]
     return List.generate(daysInMonth, (i) {
-
-// Tạo DateTime cho từng ngày (từ ngày 1 đến ngày N).
-      final day = DateTime(year, month, i + 1);
-      final totalSeconds = works
-          .where((w) {
-            final d = w.checkInTime.toLocal();
-            return d.year == year && d.month == month && d.day == day.day;
-          })
-          .fold<int>(0, (sum, w) => sum + w.workTime.inSeconds);
-
-      return {'day': i + 1, 'minutes': (totalSeconds / 60).toDouble()};
+      final day = i + 1;
+      return {
+        'day': day,
+        'minutes': minutesPerDay[day] ?? 0.0,
+      };
     });
   }
 
+  // double _getMaxY(List<Map<String, dynamic>> data) {
+  //   final maxMinutes = data
+  //       .map((e) => e['minutes'] as double)
+  //       .fold(0.0, (a, b) => a > b ? a : b);
+  //   final maxHour = (maxMinutes / 60).ceil();
+  //   return maxHour < 10 ? 10 : maxHour + 1;
+  // }
   double _getMaxY(List<Map<String, dynamic>> data) {
     final maxMinutes = data
         .map((e) => e['minutes'] as double)
         .fold(0.0, (a, b) => a > b ? a : b);
-    final maxHour = (maxMinutes / 60).ceil();
-    return maxHour < 10 ? 10 : maxHour + 1;
+    final maxHour = maxMinutes / 60;
+
+    final paddedMax = (maxHour * 1.15).ceil(); // ➕ thêm 15% đệm
+    return paddedMax < 10 ? 10 : paddedMax.toDouble();
   }
+
 }

@@ -50,6 +50,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -60,6 +61,20 @@ dev_dependencies:
 
   http: ^1.4.0
   flutter_riverpod: ^2.6.1
+  flutter_native_splash: ^2.4.6
+flutter_native_splash:
+  image: assets/images/logo_daily_app.png
+  branding: assets/images/text_logo_daily_app.png
+  background_image: assets/images/bg_1.png
+  android: true
+  ios: true
+  web: false
+
+  android_12:
+    image: assets/images/logo_daily_app.png
+    branding: assets/images/text_logo_daily_app.png
+    icon_background_color: "#ffffff"
+    color: "#ffffff"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -97,9 +112,9 @@ flutter:
 #         - asset: fonts/Schyler-Regular.ttf
 #         - asset: fonts/Schyler-Italic.ttf
 #           style: italic
-#     - family: Trajan Pro
-#       fonts:
-#         - asset: fonts/TrajanPro.ttf
+     - family: KaushanScript_Regular
+       fonts:
+         - asset: assets/fonts/KaushanScript_Regular.ttf
 #         - asset: fonts/TrajanPro_Bold.ttf
 #           weight: 700
   #

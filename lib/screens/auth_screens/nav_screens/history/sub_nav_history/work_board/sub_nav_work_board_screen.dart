@@ -191,6 +191,7 @@ class _SubNavWorkBoardScreenState extends ConsumerState<SubNavWorkBoardScreen> {
       left: false,
       right: false,
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: _currentIndex == 1
             ? PreferredSize(
                 preferredSize: const Size.fromHeight(80),
@@ -230,7 +231,7 @@ class _SubNavWorkBoardScreenState extends ConsumerState<SubNavWorkBoardScreen> {
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(10),
+                            // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.all(
@@ -263,7 +264,7 @@ class _SubNavWorkBoardScreenState extends ConsumerState<SubNavWorkBoardScreen> {
                           Expanded(
                             child: Text(
                               (user?.fullName == null || user!.fullName.trim().isEmpty)
-                                  ? 'Linh Hồn'
+                                  ? 'New User'
                                   : user.fullName,
                               style: const TextStyle(
                                 fontSize: 20,
@@ -471,6 +472,8 @@ class _SubNavWorkBoardScreenState extends ConsumerState<SubNavWorkBoardScreen> {
         ),
 
         bottomNavigationBar: CurvedNavigationBar(
+          height: 60,
+
           // color: Colors.black.withOpacity(0.2), // màu nền navigator bar
           color: Color(0xFFC3C8E3).withOpacity(0.4),
           // màu nền navigator bar
@@ -521,7 +524,8 @@ class _SubNavWorkBoardScreenState extends ConsumerState<SubNavWorkBoardScreen> {
           ],
         ),
 
-        body: SafeArea(child: _pages[_currentIndex]),
+        body: SafeArea(
+            child: _pages[_currentIndex]),
       ),
     );
   }

@@ -53,10 +53,8 @@ class WeeklyWorkChartWidget extends StatelessWidget {
           ),
         ),
       );
-    }else
-
-
-    return Container(
+    }else {
+      return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -72,11 +70,11 @@ class WeeklyWorkChartWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10,),
+                SizedBox(height: 20,),
                 // ✅ BIỂU ĐỒ
                 SizedBox(
                   // height: 240,
-                  height: 360,
+                  height: 350,
                   child: BarChart(
                     BarChartData(
                       alignment: BarChartAlignment.spaceAround,
@@ -93,11 +91,11 @@ class WeeklyWorkChartWidget extends StatelessWidget {
                             final minutes = totalMinutes % 60;
             
                             return BarTooltipItem(
-                              "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}",
+                              "${hours.toString().padLeft(2, '0')}h${minutes.toString().padLeft(2, '0')}",
                               const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 12,
+                                fontSize: 10,
                               ),
                             );
                           },
@@ -233,6 +231,7 @@ class WeeklyWorkChartWidget extends StatelessWidget {
         },
       ),
     );
+    }
   }
 
   // List<Map<String, dynamic>> _convertToWeeklyChartData(List<Work> works) {
@@ -289,7 +288,9 @@ class WeeklyWorkChartWidget extends StatelessWidget {
 
       DateTime current = checkIn;
       while (current.isBefore(checkOut)) {
-        final nextDay = DateTime(current.year, current.month, current.day + 1);
+        // final nextDay = DateTime(current.year, current.month, current.day + 1);
+        final nextDay = DateTime(current.year, current.month, current.day).add(const Duration(days: 1));
+
         final endThisDay = checkOut.isBefore(nextDay) ? checkOut : nextDay;
 
         final workedDuration = endThisDay.difference(current);
@@ -395,7 +396,7 @@ class WeeklyWorkChartWidget extends StatelessWidget {
           row(
             Icons.access_time,
             "Total working time per week",
-            "$totalHours : ${remainMinutes.toInt()}",
+            "${totalHours}h${remainMinutes.toInt()}",
           ),
           if (mostDay != null)
             row(
@@ -429,7 +430,7 @@ class WeeklyWorkChartWidget extends StatelessWidget {
     final h = totalMinutes ~/ 60;
     final m = totalMinutes % 60;
 
-    return "${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}";
+    return "${h.toString().padLeft(2, '0')}h${m.toString().padLeft(2, '0')}";
   }
 
 }

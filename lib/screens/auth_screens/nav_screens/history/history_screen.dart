@@ -60,7 +60,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                   Row(
                     children: [
                       Container(
-                        padding: EdgeInsets.all(10),
+                        // padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(100),
@@ -89,7 +89,7 @@ class _HistoryScreenState extends ConsumerState<HistoryScreen> {
                       Expanded(
                         child: Text(
                           (user?.fullName == null || user!.fullName.trim().isEmpty)
-                              ? 'Linh Hồn'
+                              ? 'New User'
                               : user.fullName,
                           style: const TextStyle(
                             fontSize: 20,

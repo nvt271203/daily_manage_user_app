@@ -162,7 +162,7 @@ class _SubNavWorkBarChartScreenState extends ConsumerState<SubNavWorkBarChartScr
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(10),
+                            // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -194,7 +194,7 @@ class _SubNavWorkBarChartScreenState extends ConsumerState<SubNavWorkBarChartScr
                           Expanded(
                             child: Text(
                               (user?.fullName == null || user!.fullName.trim().isEmpty)
-                                  ? 'Linh Hồn'
+                                  ? 'New User'
                                   : user.fullName,
                               style: const TextStyle(
                                 fontSize: 20,
@@ -380,7 +380,8 @@ class _SubNavWorkBarChartScreenState extends ConsumerState<SubNavWorkBarChartScr
         ),
       
         bottomNavigationBar: CurvedNavigationBar(
-          // color: Colors.black.withOpacity(0.2), // màu nền navigator bar
+            height: 60,
+            // color: Colors.black.withOpacity(0.2), // màu nền navigator bar
             color: Color(0xFFC3C8E3).withOpacity(0.4), // màu nền navigator bar
             index: _currentIndex, // ✅ Thêm dòng này
             buttonBackgroundColor: HelpersColors.primaryColor,  // màu nề item navigator bar được nhấn

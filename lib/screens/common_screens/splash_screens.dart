@@ -86,7 +86,7 @@ class _SplashScreensState extends ConsumerState<SplashScreens> {
               if(snapshot.connectionState == ConnectionState.waiting){
                 return Center(child: CircularProgressIndicator(),);
               }
-              final user = ref.watch(userProvider);
+              final user = ref.read(userProvider);
               // return user!= null ? LeaveScreenTemp() :LeaveScreenTemp();
               // return user!= null ? AdminMainScreen() :AdminMainScreen();
               if (user == null) {

@@ -7,7 +7,7 @@ class User {
   final String role;
   final String fullName;
   final DateTime? birthDay;
-  final String sex;
+  final String? sex;
   final String email;
   final String password;
   final String image;
@@ -65,7 +65,7 @@ class User {
       role: json["role"] ?? "",
       fullName: json["fullName"] ?? "",
       birthDay: json["birthDay"] != null ? DateTime.parse(json["birthDay"]) : null,
-      sex: json["sex"] ?? "",
+      sex: json["sex"] ?? null,
       email: json["email"] ?? "",
       password: json["password"] ?? "",
       image: json["image"] ?? "",
@@ -106,11 +106,24 @@ class User {
 
   String? fullNameValidate(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Please enter full name';
+      return '"Full name" is not empty !';
     }
     return null;
   }
-
+  String? phoneNumberValidate(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return '"Full name" is not empty !';
+    }
+    // Kiểm tra nếu có ký tự không phải là số
+    final isNumeric = RegExp(r'^\d+$');
+    if (!isNumeric.hasMatch(value.trim())) {
+      return '"Phone number" is not string type !';
+    }
+    if(value.length < 9 || value.length > 12){
+      return '"Phone Number" must be 9 to 12 digits long !';
+    }
+    return null;
+  }
   String? birthDayValidate(DateTime? value) {
     if (value == null) {
       return 'Please choose birthday';
@@ -142,8 +155,8 @@ class User {
     if (value == null || value.trim().isEmpty) {
       return '"Password" cannot be blank !';
     }
-    if (value.trim().length < 6) {
-      return '"Password" must be at least 6 characters!';
+    if (value.trim().length < 8) {
+      return '"Password" must be at least 8 characters!';
     }
     return null;
   }

@@ -13,8 +13,13 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async{
+
+  // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   // Chặn xoay ngang màn hình
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
@@ -24,6 +29,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting('vi_VN', null); // Khởi tạo ngôn ngữ Việt Nam
   runApp(ProviderScope(child: const MyApp()));
+
 }
 
 class MyApp extends ConsumerWidget {

@@ -133,11 +133,11 @@ class _MissionDialogWidgetState extends State<MissionDialogWidget> {
 
 
        // So sánh với dữ liệu gốc trước khi quyết định gọi onLater - ONLate CÓ THỂ GỌI hOẶC KHÔNG
-       if (report != widget.initialReport ||
-           plan != widget.initialPlan ||
-           note != widget.initialNote) {
-         widget.onLater(report, plan, note);
-       }
+       // if (report != widget.initialReport ||
+       //     plan != widget.initialPlan ||
+       //     note != widget.initialNote) {
+       //   widget.onLater(report, plan, note);
+       // }
        Navigator.of(context).pop(); // Đóng MissionDialogWidget
      }
    }

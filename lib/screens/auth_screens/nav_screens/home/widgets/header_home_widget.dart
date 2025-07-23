@@ -18,7 +18,7 @@ class HeaderHomeWidget extends ConsumerWidget {
       ),
     );
 
-    final user = ref.watch(userProvider);
+    final user = ref.read(userProvider);
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -49,7 +49,7 @@ class HeaderHomeWidget extends ConsumerWidget {
                   : Image.network(user.image, width: 50, height: 50, fit:BoxFit.cover),
             ),
           ),
-          SizedBox(width: 20),
+          SizedBox(width: 5),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,18 +64,21 @@ class HeaderHomeWidget extends ConsumerWidget {
                   ),
                 ),
               ),
-              Text(
-                (user?.fullName == null || user!.fullName.trim().isEmpty) ?
-                'New user'
-                    :
-                user.fullName,
-                style: GoogleFonts.oswald(
-                  textStyle: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    // color: HelpersColors.primaryColor,
-                    color: Colors.white,
-                    letterSpacing: 1.5,
+              Padding(
+                padding: EdgeInsetsGeometry.only(left: 10),
+                child: Text(
+                  (user?.fullName == null || user!.fullName.trim().isEmpty) ?
+                  'New user'
+                      :
+                  user.fullName,
+                  style: GoogleFonts.oswald(
+                    textStyle: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      // color: HelpersColors.primaryColor,
+                      color: Colors.white,
+                      letterSpacing: 1.5,
+                    ),
                   ),
                 ),
               ),

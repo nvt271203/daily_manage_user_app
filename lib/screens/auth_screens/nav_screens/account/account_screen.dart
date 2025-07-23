@@ -6,6 +6,8 @@ import 'package:daily_manage_user_app/widgets/dialog_confirm_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
+
 class AccountScreen extends ConsumerStatefulWidget {
 
   AccountScreen({super.key});
@@ -19,7 +21,14 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.read(userProvider);
+
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: Colors.white,
+    //   statusBarIconBrightness: Brightness.dark,
+    // ));
+    final user = ref.watch(userProvider);
+    print('user-image - ${user!.image}');
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -46,15 +55,26 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                   ),
                   child: ClipOval(
                     child: Image(
+                      // image: user?.image == null || user!.image.isEmpty
+                      //     ? AssetImage(
+                      //   user?.sex == 'Male'
+                      //       ? 'assets/images/avatar_boy_default.jpg'
+                      //       : user?.sex == "Female"
+                      //   ? 'assets/images/avatar_girl_default.jpg'
+                      //   : 'assets/images/avt_default_2.jpg',
+                      // ) as ImageProvider
+                      //     : NetworkImage(user.image),
                       image: user?.image == null || user!.image.isEmpty
                           ? AssetImage(
                         user?.sex == 'Male'
                             ? 'assets/images/avatar_boy_default.jpg'
                             : user?.sex == "Female"
-                        ? 'assets/images/avatar_girl_default.jpg'
-                        : 'assets/images/avt_default_2.jpg',
+                            ? 'assets/images/avatar_girl_default.jpg'
+                            : 'assets/images/avt_default_2.jpg',
                       ) as ImageProvider
-                          : NetworkImage(user.image),
+                          :NetworkImage(user.image), // Sử dụng NetworkImage cho URLs
+
+
                       fit: BoxFit.cover,
                       width: double.infinity,
                       height: double.infinity,
@@ -81,7 +101,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
                         children: [
                           Text(
                             (user?.fullName == null || user!.fullName.trim().isEmpty)
-                                ? 'Linh Hồn'
+                                ? 'New User'
                                 : user.fullName,
                             style: TextStyle(
                               color: Colors.black,

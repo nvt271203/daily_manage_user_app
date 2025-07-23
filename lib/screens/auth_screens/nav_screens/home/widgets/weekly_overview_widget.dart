@@ -61,7 +61,7 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
           BoxShadow(
             color: Colors.black12,
             blurRadius: 12,
-            offset: Offset(0, 10),
+            // offset: Offset(0, 10),
           ),
         ],
       ),
@@ -72,12 +72,15 @@ class _WeeklyOverviewState extends State<WeeklyOverview> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Weekly Overview",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.grey[800],
+              Padding(
+                padding: EdgeInsetsGeometry.only(left: 20),
+                child: Text(
+                  "Weekly Overview",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[800],
+                  ),
                 ),
               ),
               Text(

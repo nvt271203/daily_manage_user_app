@@ -10,25 +10,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:daily_manage_user_app/helpers/tools_colors.dart';
 import 'package:daily_manage_user_app/providers/user_provider.dart';
 import 'package:daily_manage_user_app/screens/auth_screens/nav_screens/home/dialogs/notification_result_check_dialog_widget.dart';
-import 'package:daily_manage_user_app/screens/auth_screens/nav_screens/home/widgets/weekly_calendar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../../../helpers/format_helper.dart';
-import '../../../../../models/work.dart';
-import '../../../../../providers/work_provider.dart';
-import 'arc_painter_widget.dart';
-import '../dialogs/mission_dialog_widget.dart';
+import '../../../../../../helpers/format_helper.dart';
+import '../../../../../../models/work.dart';
+import '../../../../../../providers/work_provider.dart';
+import '../arc_painter_widget.dart';
+import '../../dialogs/mission_dialog_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class BodyHomeWidget extends ConsumerStatefulWidget {
-  const BodyHomeWidget({super.key});
+class BodyHomePresentWidget extends ConsumerStatefulWidget {
+  const BodyHomePresentWidget({super.key});
 
   @override
-  _BodyHomeWidgetState createState() => _BodyHomeWidgetState();
+  _BodyHomePresentWidgetState createState() => _BodyHomePresentWidgetState();
 }
 
-class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
+class _BodyHomePresentWidgetState extends ConsumerState<BodyHomePresentWidget>
     with TickerProviderStateMixin {
   WorkController _workController = WorkController();
 
@@ -250,155 +249,14 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
       color: Colors.white,
       child: Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
-          //   child:
-          //
-          //   Container(
-          //     decoration: BoxDecoration(
-          //       // color: const Color(0xFFE0F2FE), // 🌿 Nền xanh nhạt
-          //       borderRadius: BorderRadius.circular(20), // 🌟 Bo góc
-          //       gradient: LinearGradient(colors: [
-          //         Color(0xFFE0F2FE), Colors.white
-          //       ]),
-          //       boxShadow: [
-          //         BoxShadow(
-          //           color: Colors.black12.withOpacity(0.1), // 🌫 Bóng nhẹ
-          //           blurRadius: 6,
-          //           offset: const Offset(0, 3),
-          //         ),
-          //       ],
-          //     ),
-          //     padding: const EdgeInsets.all(16),
-          //     child: Row(
-          //       crossAxisAlignment: CrossAxisAlignment.center,
-          //       children: [
-          //         // 🔹 Phần chữ bên trái
-          //         Expanded(
-          //           flex: 3,
-          //           child: Column(
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: [
-          //               Text(
-          //                 'Hello,',
-          //                 style: GoogleFonts.oswald(
-          //                   textStyle: TextStyle(
-          //                     fontSize: 18,
-          //                     fontWeight: FontWeight.w700,
-          //                     color: Colors.grey.shade800.withOpacity(0.8),
-          //                   ),
-          //                 ),
-          //               ),
-          //               Text(
-          //                 (user?.fullName == null || user!.fullName.trim().isEmpty) ?
-          //                     'New user'
-          //                 :
-          //                 user.fullName,
-          //                 style: GoogleFonts.oswald(
-          //                   textStyle: TextStyle(
-          //                     fontSize: 22,
-          //                     fontWeight: FontWeight.w900,
-          //                     color: HelpersColors.primaryColor,
-          //                     letterSpacing: 1.5,
-          //                   ),
-          //                 ),
-          //               ),
-          //               const SizedBox(height: 6),
-          //               Text(
-          //                 'A fresh start, a new chance!',
-          //                 style: TextStyle(
-          //                   fontSize: 14,
-          //                   color: Colors.grey.shade600,
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //
-          //         const SizedBox(width: 16),
-          //
-          //         // 🔹 Ảnh minh họa bên phải
-          //         ClipRRect(
-          //           borderRadius: BorderRadius.circular(100),
-          //           child: user?.image == null || user!.image.isEmpty
-          //               ? Image.asset(
-          //             user?.sex == 'Male'
-          //                 ? 'assets/images/avatar_boy_default.jpg'
-          //                 : user?.sex == 'Female'
-          //                 ? 'assets/images/avatar_girl_default.jpg'
-          //                 : 'assets/images/avt_default_2.jpg',
-          //             width: 100,
-          //             height: 100,
-          //             fit: BoxFit.cover,
-          //           )
-          //               : Image.network(
-          //             user.image,
-          //             width: 100,
-          //             height: 100,
-          //             fit: BoxFit.cover,
-          //           ),
-          //         ),
-          //
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          WeeklyOverview(
-            onDateSelected: (dateSelected) {
-              print('dateSelected - ${dateSelected.day}');
-            },
-          ),
-          // WeeklyCalendarWidget(currentDate: _now),
-          // SizedBox(height: 10),
+
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Lottie.asset('assets/lotties/robot_primary.json', width: 100),
+              // Lottie.asset('assets/lotties/robot_primary.json', width: 100),
               Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    // Thêm mainAxisAlignment để căn giữa cả nhóm
-                    children: [
-                      Text(
-                        // 'Thứ năm',
-                        FormatHelper.formatWeekdayEN(_now),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black.withOpacity(0.6),
-                        ),
-                      ),
-                      Text(
-                        ' - ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.black.withOpacity(0.4),
-                        ),
-                      ),
-                      Text(
-                        // '26/06/2025',
-                        FormatHelper.formatDate_DD_MM_YYYY(_now),
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black.withOpacity(0.6),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Align(
-                    child: Text(
-                      // '9:00 AM',
-                      FormatHelper.formatTimeVN(_now),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: HelpersColors.itemPrimary,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                  // if(_isCheckedIn) Text('You has been check-in at ${FormatHelper.formatTimeVN(_checkInTime!)}'),
                   _isCheckedIn
                       ?
                         // Hiển thị dữ liệu check in nếu đã check in
@@ -500,7 +358,7 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                               color: _isCheckedIn
                                   ? HelpersColors.itemSelected.withOpacity(0.4)
                                   : HelpersColors.primaryColor.withOpacity(0.4),
-                              strokeWidth: 6,
+                              strokeWidth: 4,
                               sweepAngle: pi / 2, // 1/4 vòng
                             ),
                           ),
@@ -514,13 +372,13 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                       builder: (context, child) {
                         return Transform.rotate(
                           angle:
-                              _rotateController.value * 4 * pi, // nhanh gấp đôi
+                              _rotateController.value * 6 * pi, // nhanh gấp đôi
                           child: CustomPaint(
                             size: Size(165, 165),
                             painter: ArcPainter(
                               color: _isCheckedIn
                                   ? HelpersColors.itemSelected.withOpacity(0.2)
-                                  : HelpersColors.primaryColor.withOpacity(0.5),
+                                  : HelpersColors.primaryColor.withOpacity(0.3),
                               strokeWidth: 5,
                               sweepAngle: pi, // 2/3 vòng
                             ),
@@ -546,7 +404,7 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                                   ? HelpersColors.itemSelected.withOpacity(
                                       0.8,
                                     ) // Tăng opacity lên chút cho nó rõ hơn
-                                  : HelpersColors.primaryColor.withOpacity(0.7),
+                                  : HelpersColors.primaryColor.withOpacity(0.5),
                               // Tăng opacity lên chút cho nó rõ hơn
                               strokeWidth: 4,
                               // Điều chỉnh sweepAngle để nó là một cung có thể "hiển thị liên tục" khi quay.
@@ -690,8 +548,6 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                                                 return true;
                                               },
                                               onLater: (report, plan, note) async{
-
-
                                                 if(report != null && plan != null && note != null){
                                                   _report = report;
                                                   _plan = plan;
@@ -716,7 +572,7 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                                                   }
 
 
-                                                  Navigator.of(context).pop();
+                                                  // Navigator.of(context).pop();
 
                                                   if(_report!.trim().isNotEmpty && _plan!.trim().isNotEmpty){
                                                     setState(() {
@@ -729,29 +585,10 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                                                     });
                                                   }
                                                 }
-/////////////////
 
-
-
-
-                                                // ✅ Gọi API thứ 2 **sau khi gán _checkInTime**
-                                                // final Work? workCheckIn = await WorkController()
-                                                //     .getCheckInByUser(
-                                                //   userId: user.id,
-                                                //   checkInTime: _checkInTime,
-                                                // );
-                                                //
-                                                // final bool updateReport = await WorkController().updateWorkByUser(id: workCheckIn!.id);
-                                                // if(updateReport){
-                                                //   showTopNotification(context: context, message: 'Report data saved', type: NotificationType.success);
-                                                // }
                                                 return true;
                                               },
 
-
-                                              // onLater: () async {
-                                              //   Navigator.of(context).pop();
-                                              // },
                                             );
                                           },
                                         );
@@ -1050,6 +887,12 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                         width: 130,
                         height: 130,
                         decoration: BoxDecoration(
+                          border:
+                          Border.all(color:
+                          !_isCheckedIn ?
+                          Colors.white.withOpacity(0.6)
+                              : HelpersColors.itemSelected.withOpacity(0.1)
+                              , width: 6),
                           // === THÊM HIỆU ỨNG ĐỔ BÓNG TẠI ĐÂY ===
                           boxShadow: [
                             BoxShadow(
@@ -1095,6 +938,7 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                                   Text(
                                     'Check Out',
                                     style: TextStyle(
+                                      fontFamily: 'KaushanScript_Regular',
                                       fontWeight: FontWeight.bold,
                                       color: HelpersColors.itemSelected,
                                       fontSize: 16,
@@ -1126,9 +970,11 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                                 child: Text(
                                   'Check In',
                                   style: TextStyle(
+                                    fontFamily: 'KaushanScript_Regular',
                                     fontWeight: FontWeight.w900,
                                     color: Colors.white,
-                                    fontSize: 20,
+                                    letterSpacing: 1.5,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ),
@@ -1257,18 +1103,6 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                           });
                         }
 
-
-                        // ✅ Gọi API thứ 2 **sau khi gán _checkInTime**
-                        // final Work? workCheckIn = await WorkController()
-                        //     .getCheckInByUser(
-                        //   userId: user.id,
-                        //   checkInTime: _checkInTime,
-                        // );
-                        //
-                        // final bool updateReport = await WorkController().updateWorkByUser(id: workCheckIn!.id);
-                        // if(updateReport){
-                        //   showTopNotification(context: context, message: 'Report data saved', type: NotificationType.success);
-                        // }
                         return true;
                       },
 
@@ -1332,59 +1166,59 @@ class _BodyHomeWidgetState extends ConsumerState<BodyHomeWidget>
                 ),
               ),
             ),
-          SizedBox(height: 20,),
 
-          if (_isCheckedIn)
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-              decoration: BoxDecoration(
-                color: _isReported && _isCheckedIn
-                    ? HelpersColors.itemPrimary.withOpacity(0.1)
-                    : HelpersColors.itemSelected.withOpacity(
-                        0.1,
-                      ), // xanh dương nhạt
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.book_outlined,
-                    color: _isReported && _isCheckedIn
-                        ? HelpersColors.itemPrimary
-                        : HelpersColors.itemSelected,
-                  ),
-                  // xanh dương đậm
-                  const SizedBox(width: 10),
-                  Text(
-                    _isReported && _isCheckedIn
-                        ? 'You have reported'
-                        : 'You have not reported',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: _isReported && _isCheckedIn
-                          ? HelpersColors.itemPrimary
-                          : HelpersColors.itemSelected, // xanh dương đậm hơn
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  _isReported && _isCheckedIn
-                      ? Icon(
-                          Icons.check_circle,
-                          color: HelpersColors.itemPrimary.withOpacity(0.7),
-                          size: 22,
-                        )
-                      : Icon(
-                          Icons.warning_outlined,
-                          color: HelpersColors.itemSelected,
-                          size: 22,
-                        ),
-                  // xanh dương
-                ],
-              ),
-            ),
+          // SizedBox(height: 20,),
+          // if (_isCheckedIn)
+          //   Container(
+          //     margin: const EdgeInsets.symmetric(horizontal: 20),
+          //     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          //     decoration: BoxDecoration(
+          //       color: _isReported && _isCheckedIn
+          //           ? HelpersColors.itemPrimary.withOpacity(0.1)
+          //           : HelpersColors.itemSelected.withOpacity(
+          //               0.1,
+          //             ), // xanh dương nhạt
+          //       borderRadius: BorderRadius.circular(12),
+          //     ),
+          //     child: Row(
+          //       mainAxisSize: MainAxisSize.min,
+          //       children: [
+          //         Icon(
+          //           Icons.book_outlined,
+          //           color: _isReported && _isCheckedIn
+          //               ? HelpersColors.itemPrimary
+          //               : HelpersColors.itemSelected,
+          //         ),
+          //         // xanh dương đậm
+          //         const SizedBox(width: 10),
+          //         Text(
+          //           _isReported && _isCheckedIn
+          //               ? 'You have reported'
+          //               : 'You have not reported',
+          //           style: TextStyle(
+          //             fontSize: 16,
+          //             fontWeight: FontWeight.w500,
+          //             color: _isReported && _isCheckedIn
+          //                 ? HelpersColors.itemPrimary
+          //                 : HelpersColors.itemSelected, // xanh dương đậm hơn
+          //           ),
+          //         ),
+          //         SizedBox(width: 20),
+          //         _isReported && _isCheckedIn
+          //             ? Icon(
+          //                 Icons.check_circle,
+          //                 color: HelpersColors.itemPrimary.withOpacity(0.7),
+          //                 size: 22,
+          //               )
+          //             : Icon(
+          //                 Icons.warning_outlined,
+          //                 color: HelpersColors.itemSelected,
+          //                 size: 22,
+          //               ),
+          //         // xanh dương
+          //       ],
+          //     ),
+          //   ),
         ],
       ),
     );

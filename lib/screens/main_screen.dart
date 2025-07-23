@@ -75,7 +75,8 @@ class _MainScreenState extends State<MainScreen> {
           bottomNavigationBar: CurvedNavigationBar(
               height: 60,
               // color: Colors.black.withOpacity(0.2), // màu nền navigator bar
-              color: Color(0xFFC3C8E3).withOpacity(0.4), // màu nền navigator bar
+              // color: Color(0xFFC3C8E3).withOpacity(0.4), // màu nền navigator bar
+              color: Color(0xFFDDDDDD), // màu nền navigator bar
               // color: Color(0xFFC3C8E3).withOpacity(0.4), // màu nền navigator bar
               buttonBackgroundColor: HelpersColors.primaryColor,  // màu nề item navigator bar được nhấn
               backgroundColor: Colors.transparent,
